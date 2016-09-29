@@ -569,7 +569,7 @@
   
   - measure: average_engaged_time_per_visitor
     type: number
-    sql: ${total_engaged_time}::float/NULLIF(${visitors},0)
+    sql: ${total_engaged_time}/${visitors}
     view_label: "Metrics"
     value_format_name: decimal_2
   
