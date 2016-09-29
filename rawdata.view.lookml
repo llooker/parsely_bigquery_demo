@@ -133,7 +133,7 @@
     view_label: "IP & Geo"
 
   - dimension: ip_postal
-    type: string
+    type: zipcode
     sql: ${TABLE}.ip_postal
     view_label: "IP & Geo"
 
@@ -145,6 +145,12 @@
   - dimension: ip_timezone
     type: string
     sql: ${TABLE}.ip_timezone
+    view_label: "IP & Geo"
+
+  - dimension: ip_location
+    type: location
+    sql_latitude: ${ip_lat}
+    sql_longitude: ${ip_lon}
     view_label: "IP & Geo"
 
   - dimension: metadata
@@ -194,13 +200,15 @@
     view_label: "Page Metadata"
 
   - dimension: metadata_pub_date_tmsp
-    type: number
-    sql: ${TABLE}.metadata_pub_date_tmsp
+    type: time
+    sql: MSEC_TO_TIMESTAMP(INTEGER(${TABLE}.metadata_pub_date_tmsp))
+    timeframes: [time, hour, hour_of_day, date, week, month]
     view_label: "Page Metadata"
 
   - dimension: metadata_save_date_tmsp
-    type: number
-    sql: ${TABLE}.metadata_save_date_tmsp
+    type: time
+    sql: MSEC_TO_TIMESTAMP(INTEGER(${TABLE}.metadata_save_date_tmsp))
+    timeframes: [time, hour, hour_of_day, date, week, month]    
     view_label: "Page Metadata"
 
   - dimension: metadata_section
@@ -457,23 +465,32 @@
     view_label: "Time"
 
   - dimension: timestamp_info_nginx_ms
-    type: number
-    sql: ${TABLE}.timestamp_info_nginx_ms
+    type: time
+    sql: MSEC_TO_TIMESTAMP(INTEGER(${TABLE}.timestamp_info_nginx_ms))
+    timeframes: [time, hour, hour_of_day, date, week, month]
     view_label: "Time"
 
   - dimension: timestamp_info_override_ms
-    type: number
-    sql: ${TABLE}.timestamp_info_override_ms
+    type: time
+    sql: MSEC_TO_TIMESTAMP(INTEGER(${TABLE}.timestamp_info_override_ms))
+    timeframes: [time, hour, hour_of_day, date, week, month]
     view_label: "Time"
 
   - dimension: timestamp_info_pixel_ms
-    type: number
-    sql: ${TABLE}.timestamp_info_pixel_ms
+    type: time
+    sql: MSEC_TO_TIMESTAMP(INTEGER(${TABLE}.timestamp_info_pixel_ms))
+    timeframes: [time, hour, hour_of_day, date, week, month]
     view_label: "Time"
 
   - dimension: ts_action
     type: string
     sql: ${TABLE}.ts_action
+    view_label: "Time"
+
+  - dimension: action
+    type: time
+    sql: TIMESTAMP(${TABLE}.ts_action)
+    timeframes: [time, hour, hour_of_day, date, week, month]
     view_label: "Time"
 
   - dimension: millis_since_last_visit
@@ -705,5 +722,5 @@
   
   - measure: session_count
     type: count_distinct
-    sql: ${session_id} ||'-' || ${visitor_site_id}
+    sql: CONCAT(STRING(${session_id}), '-', ${visitor_site_id})
     view_label: "Metrics"
