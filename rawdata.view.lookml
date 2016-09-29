@@ -506,8 +506,74 @@
     type: string
     sql: ${TABLE}.visitor_site_id
 
-  - measure: count
+  - measure: events
     type: count
-    approximate_threshold: 100000
     drill_fields: []
+    view_label: "Metrics"
+    
+  - measure: pageviews
+    type: count
+    filter: 
+      action: pageview
+    view_label: "Metrics"
 
+  - measure: pageviews_mobile
+    type: count
+    filter: 
+      action: pageview
+      ua_devicetype: mobile
+    view_label: "Metrics"
+
+  - measure: pageviews_desktop
+    type: count
+    filter: 
+      action: pageview
+      ua_devicetype: desktop
+    view_label: "Metrics"
+
+  - measure: post_count
+    type: count_distinct 
+    sql: ${metadata_canonical_url}
+    view_label: "Metrics"
+  
+  - measure: visitors
+    type: count_distinct
+    sql: ${visitor_site_id}
+    view_label: "Metrics"
+
+  - measure: visitors_mobile
+    type: count_distinct
+    sql: ${visitor_site_id}
+    filter: 
+      action: pageview
+      ua_devicetype: mobile
+    view_label: "Metrics"
+
+  - measure: visitors_desktop
+    type: count_distinct
+    sql: ${visitor_site_id}
+    filter: 
+      action: pageview
+      ua_devicetype: desktop
+    view_label: "Metrics"
+  
+  - measure: network_visitors
+    type: count_distinct
+    sql: ${visitor_network_id}
+    view_label: "Metrics"
+  
+  - measure: total_engaged_time
+    type: sum
+    sql: ${engaged_time_inc}
+    view_label: "Metrics"
+  
+  - measure: average_engaged_time_per_visitor
+    type: number
+    sql: ${total_engaged_time}::float/NULLIF(${visitors},0)
+    view_label: "Metrics"
+    value_format_name: decimal_2
+  
+  - measure: session_count
+    type: count_distinct
+    sql: ${session_id} ||'-' || ${visitor_site_id}
+    view_label: "Metrics"
