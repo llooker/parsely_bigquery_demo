@@ -7,6 +7,11 @@
 # NOTE: for BigQuery specific considerations
 
 - explore: rawdata
+  joins: 
+  - join: user_facts
+    sql_on: ${rawdata.visitor_site_id} = ${user_facts.visitor_site_id}
+    relationship: many_to_one
+    view_label: Visitors
 
 - explore: xtra_domains
 

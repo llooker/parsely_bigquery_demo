@@ -8,7 +8,7 @@
     - elements: [device_pie, os_pie, country_pie, content_pie]
       height: 300
       
-    - elements: [daily_visitors_and_pageviews]
+    - elements: [daily_visitors_and_pageviews, visitor_funnel]
       height: 400
     
     - elements: [referrers, top_articles]
@@ -118,6 +118,47 @@
       point_style: none
       interpolation: linear
       colors: ['#388f5b','#2a85a9']
+    
+    - name: visitor_funnel
+      title: Visitor Funnel
+      type: looker_column
+      model: demo_bigquery
+      explore: rawdata
+      measures: [user_facts.count, user_facts.return_count, user_facts.frequent_count]
+      sorts: [user_facts.count desc]
+      limit: '500'
+      listen:
+        date: rawdata.action_date
+      column_limit: '50'
+      query_timezone: America/New_York
+      stacking: ''
+      show_value_labels: false
+      label_density: 25
+      legend_position: center
+      x_axis_gridlines: false
+      y_axis_gridlines: true
+      show_view_names: false
+      limit_displayed_rows: false
+      y_axis_combined: true
+      show_y_axis_labels: true
+      show_y_axis_ticks: true
+      y_axis_tick_density: default
+      y_axis_tick_density_custom: 5
+      show_x_axis_label: true
+      show_x_axis_ticks: true
+      x_axis_scale: auto
+      y_axis_scale_mode: linear
+      ordering: none
+      show_null_labels: false
+      show_totals_labels: false
+      show_silhouette: false
+      totals_color: '#808080'
+      show_dropoff: true
+      colors: ['#5245ed', '#1ea8df', '#a2dcf3', '#776fdf', '#e9b404', '#635189']
+      series_colors: {}
+      series_labels:
+        user_facts.count: Total Visitors
+
     
     - name: location_map
       title: Pageviews by Location
