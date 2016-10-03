@@ -11,9 +11,6 @@
       
 
   fields:
-  - measure: count
-    type: count
-    drill_fields: detail*
 
   - dimension: visitor_site_id
     type: string
@@ -21,9 +18,10 @@
     hidden: true
     sql: ${TABLE}.visitor_site_id
 
-  - dimension: first_action_date
-    type: string
-    sql: ${TABLE}.first_action_date
+  - dimension: first_action
+    type: time
+    sql: TIMESTAMP(${TABLE}.first_action_date)
+    timeframes: [date, week, month, year]
 
   - dimension: session_count
     type: number
@@ -41,6 +39,7 @@
     filters: 
       session_count: ">=2"
     description: "Have returned to the site at least once"
+    drill_fields: [visitor_site_id, user_facts.first_action_date, session_count, pageviews]
   
   - measure: frequent_count
     type: count_distinct
@@ -48,6 +47,7 @@
     filters: 
       session_count: '>=3'
     description: "Have returned to the site more than twice"
+    drill_fields: [visitor_site_id, user_facts.first_action_date, session_count, pageviews]
 
   sets:
     detail:

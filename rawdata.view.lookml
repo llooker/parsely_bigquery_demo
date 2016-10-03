@@ -655,14 +655,15 @@
 
   - measure: events
     type: count
-    drill_fields: []
     view_label: "Metrics"
+    drill_fields: [action, url_clean, visitor_site_id, action_time]
     
   - measure: pageviews
     type: count
     filter: 
       action: pageview
     view_label: "Metrics"
+    drill_fields: [url_clean, ua_devicetype, visitors, pageviews]
 
   - measure: pageviews_mobile
     type: count
@@ -670,6 +671,7 @@
       action: pageview
       ua_devicetype: mobile
     view_label: "Metrics"
+    drill_fields: [url_clean, visitors, pageviews]
 
   - measure: pageviews_desktop
     type: count
@@ -677,16 +679,19 @@
       action: pageview
       ua_devicetype: desktop
     view_label: "Metrics"
+    drill_fields: [url_clean, visitors, pageviews]
 
   - measure: post_count
     type: count_distinct 
     sql: ${metadata_canonical_url}
     view_label: "Metrics"
+    drill_fields: [metadata_canonical_url, post_count]
   
   - measure: visitors
     type: count_distinct
     sql: ${visitor_site_id}
     view_label: "Metrics"
+    drill_fields: [visitor_site_id, user_facts.first_action_date, session_count, pageviews]
 
   - measure: visitors_mobile
     type: count_distinct
@@ -695,6 +700,7 @@
       action: pageview
       ua_devicetype: mobile
     view_label: "Metrics"
+    drill_fields: [visitor_site_id, user_facts.first_action_date, session_count, pageviews]
 
   - measure: visitors_desktop
     type: count_distinct
@@ -703,11 +709,13 @@
       action: pageview
       ua_devicetype: desktop
     view_label: "Metrics"
+    drill_fields: [visitor_site_id, user_facts.first_action_date, session_count, pageviews]
   
   - measure: network_visitors
     type: count_distinct
     sql: ${visitor_network_id}
     view_label: "Metrics"
+    drill_fields: [visitor_network_id, visitor_site_id, user_facts.first_action_date, session_count, pageviews]
   
   - measure: total_engaged_time
     type: sum
@@ -724,3 +732,4 @@
     type: count_distinct
     sql: CONCAT(STRING(${session_id}), '-', ${visitor_site_id})
     view_label: "Metrics"
+    drill_fields: [visitor_site_id, ua_device, refferer, session_id, total_engaged_time, pageviews]

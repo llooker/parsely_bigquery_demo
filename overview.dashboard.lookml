@@ -124,7 +124,7 @@
       type: looker_column
       model: demo_bigquery
       explore: rawdata
-      measures: [user_facts.count, user_facts.return_count, user_facts.frequent_count]
+      measures: [rawdata.visitors, user_facts.return_count, user_facts.frequent_count]
       sorts: [user_facts.count desc]
       limit: '500'
       listen:
@@ -157,7 +157,7 @@
       colors: ['#5245ed', '#1ea8df', '#a2dcf3', '#776fdf', '#e9b404', '#635189']
       series_colors: {}
       series_labels:
-        user_facts.count: Total Visitors
+        rawdata.visitors: Total Visitors
 
     
     - name: location_map
