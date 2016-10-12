@@ -36,4 +36,4 @@
 
   - measure: ad_revenue
     type: average
-    sql: ${ad_revenue_per_1000}
+    sql: ${ad_revenue_per_1000} * ${ad_total_impressions}
