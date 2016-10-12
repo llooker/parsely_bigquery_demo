@@ -15,8 +15,11 @@
     timeframes: [time, date, week, month]
     sql: ${TABLE}.subscriber_since
 
-  - measure: count
+  - measure: record_count
     type: count
     approximate_threshold: 100000
     drill_fields: []
 
+  - measure: subscriber_revenue
+    type: sum
+    sql: ${annual_subscription}

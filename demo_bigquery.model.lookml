@@ -12,6 +12,11 @@
     sql_on: ${rawdata.visitor_site_id} = ${user_facts.visitor_site_id}
     relationship: many_to_one
     view_label: Visitors
-
-- explore: xtra_domains
-
+  - join: xtra_adserver
+    sql_on: ${rawdata.metadata_canonical_url} = ${xtra_adserver.metadata_canonical_url}
+    relationship: one_to_one
+    view_label: Ad Metrics
+  - join: xtra_subscribers
+    sql_on: ${rawdata.extra_data__ix_cookie_id} = ${xtra_subscribers.custom_subscriber_id}
+    relationship: many_to_one
+    view_label: Subscriber Metrics
