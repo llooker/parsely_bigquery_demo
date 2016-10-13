@@ -10,10 +10,14 @@
     type: string
     sql: ${TABLE}.custom_subscriber_id
 
-  - dimension_group: subscriber_since
+  - dimension: subscriber_since
     type: time
-    timeframes: [time, date, week, month]
     sql: ${TABLE}.subscriber_since
+    timeframes: [time, month]
+
+  - measure: subscribers
+    type: count_distinct
+    sql: ${custom_subscriber_id}
 
   - measure: record_count
     type: count
