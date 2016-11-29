@@ -4,32 +4,32 @@
   rows:
     - elements: [total_pageviews, visitor_count, session_count, avg_engaged_tm]
       height: 200
-    
+
     - elements: [device_pie, os_pie, country_pie, content_pie]
       height: 300
-      
+
     - elements: [daily_visitors_and_pageviews, visitor_funnel]
       height: 400
-    
+
     - elements: [referrers, top_articles]
       height: 400
-      
+
     - elements: [location_map, zip_map]
       height: 400
-  
+
 
   filters:
-  
+
   - name: date
     type: date_filter
 #     default_value: 30 Days
-  
+
   - name: publish_date
     type: date_filter
 #     default_value: 30 Days
 
   elements:
-  
+
     - name: total_pageviews
       title: Total Pageviews
       type: single_value
@@ -40,10 +40,10 @@
       limit: 500
       font_size: medium
       text_color: black
-      listen: 
+      listen:
         date: rawdata.action_date
         publish_date: rawdata.metadata_pub_date_tmsp_date
-    
+
     - name: visitor_count
       title: Distinct Visitor Count
       type: single_value
@@ -54,11 +54,11 @@
       limit: 500
       font_size: medium
       text_color: black
-      listen: 
+      listen:
         date: rawdata.action_date
         publish_date: rawdata.metadata_pub_date_tmsp_date
-        
-    
+
+
     - name: session_count
       title: Session Count
       type: single_value
@@ -69,10 +69,10 @@
       limit: 500
       font_size: medium
       text_color: black
-      listen: 
+      listen:
         date: rawdata.action_date
         publish_date: rawdata.metadata_pub_date_tmsp_date
-    
+
     - name: avg_engaged_tm
       title: Average Engaged Time
       type: single_value
@@ -83,10 +83,10 @@
       limit: 500
       font_size: medium
       text_color: black
-      listen: 
+      listen:
         date: rawdata.action_date
         publish_date: rawdata.metadata_pub_date_tmsp_date
-    
+
     - name: daily_visitors_and_pageviews
       title: Daily Visitors and Pageviews
       type: looker_line
@@ -118,7 +118,7 @@
       point_style: none
       interpolation: linear
       colors: ['#388f5b','#2a85a9']
-    
+
     - name: visitor_funnel
       title: Visitor Funnel
       type: looker_column
@@ -159,7 +159,7 @@
       series_labels:
         rawdata.visitors: Total Visitors
 
-    
+
     - name: location_map
       title: Pageviews by Location
       type: looker_map
@@ -169,7 +169,7 @@
       measures: [rawdata.pageviews]
       filters:
         rawdata.pageviews: '>25'
-      listen: 
+      listen:
         date: rawdata.action_date
         publish_date: rawdata.metadata_pub_date_tmsp_date
       sorts: [rawdata.pageviews desc]
@@ -187,7 +187,7 @@
       map_marker_color_mode: fixed
       show_view_names: false
       quantize_map_value_colors: false
-    
+
     - name: zip_map
       title: US Pageviews by Zip
       type: looker_geo_coordinates
@@ -199,10 +199,10 @@
       limit: 500
       map: usa
       show_view_names: true
-      listen: 
+      listen:
         date: rawdata.action_date
         publish_date: rawdata.metadata_pub_date_tmsp_date
-    
+
     - name: device_pie
       title: Device Type Breakdown by Visitors
       type: looker_pie
@@ -217,10 +217,10 @@
       colors: ['#5245ed', '#ed6168', '#1ea8df', '#353b49', '#49cec1', '#b3a0dd', '#db7f2a',
         '#706080', '#a2dcf3', '#776fdf', '#e9b404', '#635189']
       show_view_names: true
-      listen: 
+      listen:
         date: rawdata.action_date
         publish_date: rawdata.metadata_pub_date_tmsp_date
-    
+
     - name: os_pie
       title: OS Breakdown by Visitors
       type: looker_pie
@@ -235,10 +235,10 @@
       colors: ['#5245ed', '#ed6168', '#1ea8df', '#353b49', '#49cec1', '#b3a0dd', '#db7f2a',
         '#706080', '#a2dcf3', '#776fdf', '#e9b404', '#635189']
       show_view_names: true
-      listen: 
+      listen:
         date: rawdata.action_date
         publish_date: rawdata.metadata_pub_date_tmsp_date
-    
+
     - name: country_pie
       title: Country Breakdown by Visitors
       type: looker_pie
@@ -253,10 +253,10 @@
       colors: ['#5245ed', '#ed6168', '#1ea8df', '#353b49', '#49cec1', '#b3a0dd', '#db7f2a',
         '#706080', '#a2dcf3', '#776fdf', '#e9b404', '#635189']
       show_view_names: false
-      listen: 
+      listen:
         date: rawdata.action_date
         publish_date: rawdata.metadata_pub_date_tmsp_date
-    
+
     - name: content_pie
       title: Content Breakdown by Visitors
       type: looker_pie
@@ -273,10 +273,10 @@
       colors: ['#5245ed', '#ed6168', '#1ea8df', '#353b49', '#49cec1', '#b3a0dd', '#db7f2a',
         '#706080', '#a2dcf3', '#776fdf', '#e9b404', '#635189']
       show_view_names: false
-      listen: 
+      listen:
         date: rawdata.action_date
         publish_date: rawdata.metadata_pub_date_tmsp_date
-    
+
     - name: referrers
       title: Top 20 Referrers
       type: looker_bar
@@ -308,10 +308,10 @@
       x_axis_scale: auto
       y_axis_scale_mode: linear
       show_null_labels: false
-      listen: 
+      listen:
         date: rawdata.action_date
         publish_date: rawdata.metadata_pub_date_tmsp_date
-    
+
     - name: top_articles
       title: Top 50 Articles
       type: table
@@ -327,7 +327,6 @@
       truncate_column_names: false
       table_theme: gray
       limit_displayed_rows: false
-      listen: 
+      listen:
         date: rawdata.action_date
         publish_date: rawdata.metadata_pub_date_tmsp_date
-  
