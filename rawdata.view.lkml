@@ -839,6 +839,40 @@ view: rawdata {
     drill_fields: [metadata_canonical_url, post_count]
   }
 
+  measure: pageviews_tablet {
+    type: count
+
+    filters: {
+      field: action
+      value: "pageview"
+    }
+
+    filters: {
+      field: ua_devicetype
+      value: "tablet"
+    }
+
+    view_label: "Metrics"
+    drill_fields: [url_clean, visitors, pageviews]
+  }
+
+  measure: pageviews_other {
+    type: count
+
+    filters: {
+      field: action
+      value: "pageview"
+    }
+
+    filters: {
+      field: ua_devicetype
+      value: "other"
+    }
+
+    view_label: "Metrics"
+    drill_fields: [url_clean, visitors, pageviews]
+  }
+
   measure: visitors {
     type: count_distinct
     sql: ${visitor_site_id} ;;
