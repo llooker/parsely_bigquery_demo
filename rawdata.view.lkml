@@ -190,7 +190,7 @@ view: rawdata {
 
   dimension: metadata_authors {
     type: string
-    sql: ${TABLE}.metadata_authors ;;
+    sql: ARRAY_TO_STRING(${TABLE}.metadata_authors,", ") ;;
     fanout_on: "metadata_authors"
     view_label: "Page Metadata"
   }
@@ -239,14 +239,14 @@ view: rawdata {
 
   dimension_group: metadata_pub_date_tmsp {
     type: time
-    sql: MSEC_TO_TIMESTAMP(INTEGER(${TABLE}.metadata_pub_date_tmsp)) ;;
-    timeframes: [time, hour, hour_of_day, date, week, month]
+    sql: TIMESTAMP_MILLIS(CAST(${TABLE}.metadata_pub_date_tmsp AS INT64)) ;;
+    timeframes: [time, hour, hour_of_day, date, week, month, raw]
     view_label: "Page Metadata"
   }
 
   dimension_group: metadata_save_date_tmsp {
     type: time
-    sql: MSEC_TO_TIMESTAMP(INTEGER(${TABLE}.metadata_save_date_tmsp)) ;;
+    sql: TIMESTAMP_MILLIS(CAST(${TABLE}.metadata_save_date_tmsp AS INT64)) ;;
     timeframes: [time, hour, hour_of_day, date, week, month]
     view_label: "Page Metadata"
   }
@@ -588,8 +588,18 @@ view: rawdata {
   dimension_group: action {
     type: time
     sql: TIMESTAMP(${TABLE}.ts_action) ;;
-    timeframes: [time, hour, hour_of_day, date, week, month]
+    timeframes: [time, hour, hour_of_day, date, week, month, raw]
     view_label: "Time"
+  }
+
+  dimension: days_since_publish_date {
+    type:  number
+    sql:  datediff(${action_date}, ${metadata_pub_date_tmsp_date}) ;;
+  }
+
+  dimension: hours_since_publish_date {
+    type:  number
+    sql:  TIMESTAMP_DIFF(${action_raw}, ${metadata_pub_date_tmsp_raw}, HOUR) ;;
   }
 
   dimension: millis_since_last_visit {
@@ -942,7 +952,7 @@ view: rawdata {
 
   measure: session_count {
     type: count_distinct
-    sql: CONCAT(STRING(${session_id}), '-', ${visitor_site_id}) ;;
+    sql: CONCAT(CAST(${session_id} as string), '-', ${visitor_site_id}) ;;
     view_label: "Metrics"
     drill_fields: [visitor_site_id, ua_device, session_id, total_engaged_time, pageviews]
   }

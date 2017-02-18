@@ -3,7 +3,7 @@ view: user_facts {
     sql: SELECT
         rawdata.visitor_site_id AS visitor_site_id,
         MIN(rawdata.ts_action) AS first_action_date,
-        COUNT(DISTINCT CONCAT(STRING(rawdata.session_id), '-', rawdata.visitor_site_id), 1000) AS rawdata_session_count
+        COUNT(DISTINCT CONCAT(CAST(rawdata.session_id as string), '-', rawdata.visitor_site_id)) AS rawdata_session_count
       FROM parsely.rawdata AS rawdata
 
       GROUP BY 1
