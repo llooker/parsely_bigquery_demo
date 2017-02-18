@@ -281,6 +281,10 @@ view: rawdata {
     type: string
     sql: ${TABLE}.metadata_title ;;
     view_label: "Page Metadata"
+    link: {
+      label: "Link to Article"
+      url: "{{rawdata.metadata_canonical_url._value}}"
+    }
   }
 
   dimension: metadata_urls {
