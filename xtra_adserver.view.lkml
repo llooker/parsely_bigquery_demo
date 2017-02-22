@@ -22,6 +22,7 @@ view: xtra_adserver {
   dimension: metadata_canonical_url {
     type: string
     sql: ${TABLE}.metadata_canonical_url ;;
+    hidden: yes
   }
 
   measure: record_count {

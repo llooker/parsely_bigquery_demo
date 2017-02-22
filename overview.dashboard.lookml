@@ -42,7 +42,7 @@
       text_color: black
       listen:
         date: rawdata.action_date
-        publish_date: rawdata.metadata_pub_date_tmsp_date
+        publish_date: page_facts.publish_date
 
     - name: visitor_count
       title: Distinct Visitor Count
@@ -56,7 +56,7 @@
       text_color: black
       listen:
         date: rawdata.action_date
-        publish_date: rawdata.metadata_pub_date_tmsp_date
+        publish_date: page_facts.publish_date
 
 
     - name: session_count
@@ -71,7 +71,7 @@
       text_color: black
       listen:
         date: rawdata.action_date
-        publish_date: rawdata.metadata_pub_date_tmsp_date
+        publish_date: page_facts.publish_date
 
     - name: avg_engaged_tm
       title: Average Engaged Time
@@ -85,7 +85,7 @@
       text_color: black
       listen:
         date: rawdata.action_date
-        publish_date: rawdata.metadata_pub_date_tmsp_date
+        publish_date: page_facts.publish_date
 
     - name: daily_visitors_and_pageviews
       title: Daily Visitors and Pageviews
@@ -171,7 +171,7 @@
         rawdata.pageviews: '>25'
       listen:
         date: rawdata.action_date
-        publish_date: rawdata.metadata_pub_date_tmsp_date
+        publish_date: page_facts.publish_date
       sorts: [rawdata.pageviews desc]
       limit: 500
       map_plot_mode: points
@@ -201,7 +201,7 @@
       show_view_names: true
       listen:
         date: rawdata.action_date
-        publish_date: rawdata.metadata_pub_date_tmsp_date
+        publish_date: page_facts.publish_date
 
     - name: device_pie
       title: Device Type Breakdown by Visitors
@@ -219,7 +219,7 @@
       show_view_names: true
       listen:
         date: rawdata.action_date
-        publish_date: rawdata.metadata_pub_date_tmsp_date
+        publish_date: page_facts.publish_date
 
     - name: os_pie
       title: OS Breakdown by Visitors
@@ -237,7 +237,7 @@
       show_view_names: true
       listen:
         date: rawdata.action_date
-        publish_date: rawdata.metadata_pub_date_tmsp_date
+        publish_date: page_facts.publish_date
 
     - name: country_pie
       title: Country Breakdown by Visitors
@@ -255,7 +255,7 @@
       show_view_names: false
       listen:
         date: rawdata.action_date
-        publish_date: rawdata.metadata_pub_date_tmsp_date
+        publish_date: page_facts.publish_date
 
     - name: content_pie
       title: Content Breakdown by Visitors
@@ -275,7 +275,7 @@
       show_view_names: false
       listen:
         date: rawdata.action_date
-        publish_date: rawdata.metadata_pub_date_tmsp_date
+        publish_date: page_facts.publish_date
 
     - name: referrers
       title: Top 20 Referrers
@@ -310,7 +310,7 @@
       show_null_labels: false
       listen:
         date: rawdata.action_date
-        publish_date: rawdata.metadata_pub_date_tmsp_date
+        publish_date: page_facts.publish_date
 
     - name: top_articles
       title: Top 50 Articles
@@ -329,4 +329,4 @@
       limit_displayed_rows: false
       listen:
         date: rawdata.action_date
-        publish_date: rawdata.metadata_pub_date_tmsp_date
+        publish_date: page_facts.publish_date

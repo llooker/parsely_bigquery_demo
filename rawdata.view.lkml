@@ -219,6 +219,14 @@ view: rawdata {
     view_label: "Page Metadata"
   }
 
+  dimension: metadata_word_count_tier {
+    type: tier
+    sql: ${metadata_full_content_word_count};;
+    tiers: [100,500,1000,1500,2000,2500,3000,3500,4000,4500,5000,5500,6000]
+    style:  integer
+    view_label: "Page Metadata"
+  }
+
   dimension: metadata_image_url {
     type: string
     sql: ${TABLE}.metadata_image_url ;;
@@ -238,6 +246,7 @@ view: rawdata {
   }
 
   dimension_group: metadata_pub_date_tmsp {
+    hidden:  yes
     type: time
     sql: TIMESTAMP_MILLIS(CAST(${TABLE}.metadata_pub_date_tmsp AS INT64)) ;;
     timeframes: [time, hour, hour_of_day, date, week, month, raw]
@@ -289,7 +298,7 @@ view: rawdata {
 
   dimension: metadata_urls {
     type: string
-    sql: ${TABLE}.metadata_urls ;;
+    sql: ARRAY_TO_STRING(${TABLE}.metadata_urls,',') ;;
     fanout_on: "metadata_urls"
     view_label: "Page Metadata"
   }
@@ -594,12 +603,12 @@ view: rawdata {
 
   dimension: days_since_publish_date {
     type:  number
-    sql:  datediff(${action_date}, ${metadata_pub_date_tmsp_date}) ;;
+    sql:  TIMESTAMP_DIFF(${action_raw}, ${page_facts.publish_raw}, DAY) ;;
   }
 
   dimension: hours_since_publish_date {
     type:  number
-    sql:  TIMESTAMP_DIFF(${action_raw}, ${metadata_pub_date_tmsp_raw}, HOUR) ;;
+    sql:  TIMESTAMP_DIFF(${action_raw}, ${page_facts.publish_raw}, HOUR) ;;
   }
 
   dimension: millis_since_last_visit {
@@ -955,5 +964,16 @@ view: rawdata {
     sql: CONCAT(CAST(${session_id} as string), '-', ${visitor_site_id}) ;;
     view_label: "Metrics"
     drill_fields: [visitor_site_id, ua_device, session_id, total_engaged_time, pageviews]
+  }
+
+  measure: total_word_count {
+    type: sum
+    sql: ${metadata_full_content_word_count} ;;
+  }
+
+  measure: engagement_per_word {
+    type: number
+    sql: ${total_engaged_time}/NULLIF(${metadata_full_content_word_count},0) ;;
+    value_format_name: decimal_2
   }
 }
