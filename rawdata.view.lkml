@@ -1015,17 +1015,4 @@ view: rawdata {
     drill_fields: [visitor_site_id, ua_device, session_id, total_engaged_time, pageviews]
   }
 
-  measure: total_word_count {
-    type: sum
-    view_label: "Metrics"
-    sql: ${metadata_full_content_word_count} ;;
-  }
-
-  measure: engagement_per_word {
-    type: number
-    view_label: "Metrics"
-    description: "Seconds per Word"
-    sql: ${total_engaged_time}/NULLIF(${total_word_count},0) ;;
-    value_format_name: decimal_2
-  }
 }
