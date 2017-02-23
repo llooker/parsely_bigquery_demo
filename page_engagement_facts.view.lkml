@@ -59,7 +59,7 @@ view: page_engagement_facts {
         sql: ${total_engaged_time} >= 30 ;;
       }
       when: {
-        label: "Read (at least 10 seconds)"
+        label: "Read (at least 10 to 30 seconds)"
         sql: ${total_engaged_time} >= 10 ;;
       }
       when: {

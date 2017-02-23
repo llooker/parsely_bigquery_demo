@@ -222,7 +222,7 @@ view: rawdata {
   dimension: metadata_word_count_tier {
     type: tier
     sql: ${metadata_full_content_word_count};;
-    tiers: [100,500,1000,1500,2000,2500,3000,3500,4000,4500,5000,5500,6000]
+    tiers: [100,500,1000,1500,2000,2500,3000,3500,4000]
     style:  integer
     view_label: "Page Metadata"
   }
@@ -275,7 +275,7 @@ view: rawdata {
 
   dimension: metadata_tags {
     type: string
-    sql: ${TABLE}.metadata_tags ;;
+    sql: ARRAY_TO_STRING(${TABLE}.metadata_tags,',') ;;
     fanout_on: "metadata_tags"
     view_label: "Page Metadata"
   }
@@ -604,11 +604,13 @@ view: rawdata {
   dimension: days_since_publish_date {
     type:  number
     sql:  TIMESTAMP_DIFF(${action_raw}, ${page_facts.publish_raw}, DAY) ;;
+    view_label: "Time"
   }
 
   dimension: hours_since_publish_date {
     type:  number
     sql:  TIMESTAMP_DIFF(${action_raw}, ${page_facts.publish_raw}, HOUR) ;;
+    view_label: "Time"
   }
 
   dimension: millis_since_last_visit {
@@ -862,6 +864,13 @@ view: rawdata {
     drill_fields: [metadata_canonical_url, post_count]
   }
 
+  measure: average_pageviews_per_post {
+    type: number
+    sql: ${pageviews}/NULLIF(${post_count},0) ;;
+    view_label: "Metrics"
+    value_format_name: decimal_1
+  }
+
   measure: pageviews_tablet {
     type: count
 
@@ -901,6 +910,46 @@ view: rawdata {
     sql: ${visitor_site_id} ;;
     view_label: "Metrics"
     drill_fields: [visitor_site_id, user_facts.first_action_date, session_count, pageviews]
+  }
+
+  measure: 4_hour_visitor_traffic {
+    type:  count_distinct
+    sql: ${visitor_site_id} ;;
+    view_label: "Metrics"
+    filters: {
+      field: hours_since_publish_date
+      value: "< 5"
+    }
+  }
+
+  measure: 12_hour_visitor_traffic {
+    type:  count_distinct
+    sql: ${visitor_site_id} ;;
+    view_label: "Metrics"
+    filters: {
+      field: hours_since_publish_date
+      value: "< 13"
+    }
+  }
+
+  measure: 24_hour_visitor_traffic {
+    type:  count_distinct
+    sql: ${visitor_site_id} ;;
+    view_label: "Metrics"
+    filters: {
+      field: hours_since_publish_date
+      value: "< 25"
+    }
+  }
+
+  measure: 3_day_visitor_traffic {
+    type:  count_distinct
+    sql: ${visitor_site_id} ;;
+    view_label: "Metrics"
+    filters: {
+      field: hours_since_publish_date
+      value: "< 73"
+    }
   }
 
   measure: visitors_mobile {
@@ -968,12 +1017,15 @@ view: rawdata {
 
   measure: total_word_count {
     type: sum
+    view_label: "Metrics"
     sql: ${metadata_full_content_word_count} ;;
   }
 
   measure: engagement_per_word {
     type: number
-    sql: ${total_engaged_time}/NULLIF(${metadata_full_content_word_count},0) ;;
+    view_label: "Metrics"
+    description: "Seconds per Word"
+    sql: ${total_engaged_time}/NULLIF(${total_word_count},0) ;;
     value_format_name: decimal_2
   }
 }
