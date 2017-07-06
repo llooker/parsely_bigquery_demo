@@ -1,7 +1,7 @@
 connection: "demo_bigquery"
 persist_for: "12 hours"
 
-# include all the views
+# include all the views #
 include: "*.view"
 
 # include all the dashboards
