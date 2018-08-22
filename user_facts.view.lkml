@@ -3,11 +3,17 @@ view: user_facts {
     sql: SELECT
         rawdata.visitor_site_id AS visitor_site_id,
         MIN(rawdata.ts_action) AS first_action_date,
+        MAX(rawdata.ts_action) AS last_action_date,
         COUNT(DISTINCT CONCAT(CAST(rawdata.session_id as string), '-', rawdata.visitor_site_id)) AS rawdata_session_count
       FROM parsely.rawdata AS rawdata
-
+      WHERE {% condition visit_date_range %} TIMESTAMP(rawdata.ts_action) {% endcondition %}
       GROUP BY 1
        ;;
+  }
+
+  filter: visit_date_range {
+    description: "Use to filter on visitors who only visited us during a certain date range"
+    type: date
   }
 
   dimension: visitor_site_id {
@@ -20,6 +26,12 @@ view: user_facts {
   dimension_group: first_action {
     type: time
     sql: TIMESTAMP(${TABLE}.first_action_date) ;;
+    timeframes: [date, week, month, year]
+  }
+
+  dimension_group: last_action {
+    type: time
+    sql: TIMESTAMP(${TABLE}.last_action_date) ;;
     timeframes: [date, week, month, year]
   }
 
