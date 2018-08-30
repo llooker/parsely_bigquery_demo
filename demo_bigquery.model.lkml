@@ -43,3 +43,50 @@ explore: rawdata {
     view_label: "Subscriber Metrics"
   }
 }
+
+explore: rawdata_snapshot {
+  description: "For cumulative analysis over time"
+
+  always_filter: {
+    filters: {
+      field: snapshot_date
+      value: "2016-08-31"
+    }
+  }
+
+  join: user_facts {
+    sql_on: ${rawdata_snapshot.visitor_site_id} = ${user_facts.visitor_site_id} ;;
+    relationship: many_to_one
+    view_label: "Visitors"
+  }
+
+  join:  page_facts {
+    sql_on: ${rawdata_snapshot.metadata_canonical_url} = ${page_facts.metadata_canonical_url} ;;
+    relationship: many_to_one
+  }
+
+  join:  page_engagement_facts {
+    sql_on: ${rawdata_snapshot.action_raw} = ${page_engagement_facts.pageview_start_raw} and
+            ${rawdata_snapshot.session_id} = ${page_engagement_facts.session_id} and
+            ${rawdata_snapshot.action_raw} = ${page_engagement_facts.pageview_start_raw} and
+            ${rawdata_snapshot.metadata_canonical_url} = ${page_engagement_facts.metadata_canonical_url} and
+            ${rawdata_snapshot.action} = 'pageview';;
+    view_label: "Session Page Engagement"
+    relationship: one_to_one
+  }
+  join: xtra_adserver {
+    sql_on: ${rawdata_snapshot.metadata_canonical_url} = ${xtra_adserver.metadata_canonical_url} ;;
+    relationship: one_to_one
+    view_label: "Ad Metrics"
+  }
+
+  join: xtra_subscribers {
+    sql_on: ${rawdata_snapshot.extra_data__ix_cookie_id} = ${xtra_subscribers.custom_subscriber_id} ;;
+    relationship: many_to_one
+    view_label: "Subscriber Metrics"
+  }
+}
+
+datagroup: new_rawdata {
+  sql_trigger: SELECT MAX(ts_action) from ${rawdata.SQL_TABLE_NAME} ;;
+}
